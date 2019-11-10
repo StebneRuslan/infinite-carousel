@@ -18,6 +18,8 @@ body {
       width: 500px;
       height: 200px; }
       .container #carousel-container .carousel-item img, .container #carousel-social .carousel-item img {
+        pointer-events: none;
+        user-select: none;
         width: 100%;
         object-fit: cover; }
 

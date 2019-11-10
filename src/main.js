@@ -1,4 +1,5 @@
 import './style.scss'
+import { images } from './images'
 
 class Carousel {
 	constructor(images, id) {
@@ -25,23 +26,25 @@ class Carousel {
 	}
 	
 	startMove(event) {
-		event.preventDefault()
 		if (event.type === 'touchmove') {
 			this._posX1 = event.touches[0].clientX
 		} else {
 			this._posX1 = event.clientX;
 		}
 		document.addEventListener('mousemove', this.move)
+		document.addEventListener('touchmove', this.move)
 		document.addEventListener('mouseup', this.finishMove)
+		document.addEventListener('touchend', this.finishMove)
 	}
 	
 	finishMove() {
 		document.removeEventListener('mousemove', this.move)
+		document.removeEventListener('touchmove', this.move)
 		document.removeEventListener('mouseup', this.finishMove)
+		document.removeEventListener('touchend', this.finishMove)
 	}
 	
 	move(event) {
-		event.preventDefault()
 		if (event.type === 'touchmove') {
 			this._posX2 = this._posX1 - event.touches[0].clientX
 			this._posX1 = event.touches[0].clientX
@@ -55,11 +58,11 @@ class Carousel {
 		}
 		if (params.width > this.container.parentElement.clientWidth + this.container.firstElementChild.clientWidth
 			&& params.width > this.container.parentElement.clientWidth + this.container.lastElementChild.clientWidth) {
-			if (params.left - this.container.parentElement.offsetLeft > -5) {
+			if (params.left - this.container.parentElement.offsetLeft > this.container.firstElementChild.clientWidth / -4) {
 				this.container.insertBefore(this.container.lastElementChild, this.container.firstElementChild)
 				this.container.style.left = `${parseInt(this.container.style.left) - this.container.lastElementChild.clientWidth}px`
 			}
-			if (params.right - 5 < this.container.parentElement.clientWidth + this.container.parentElement.offsetLeft) {
+			if (params.right - this.container.firstElementChild.clientWidth / -4 < this.container.parentElement.clientWidth + this.container.parentElement.offsetLeft) {
 				this.container.appendChild(this.container.firstElementChild)
 				this.container.style.left = `${parseInt(this.container.style.left) + this.container.firstElementChild.clientWidth}px`
 			}
@@ -67,47 +70,12 @@ class Carousel {
 	}
 }
 
-const carousel = new Carousel([
-	{
-		path: '../assets/1.jpeg'
-	},
-	{
-		path: '../assets/2.jpeg'
-	},
-	{
-		path: '../assets/3.jpeg'
-	},
-	{
-		path: '../assets/4.jpeg'
-	},
-	{
-		path: '../assets/5.jpeg'
-	}], 'carousel-container')
+const carousel = new Carousel(images.naturePictures, 'carousel-container')
 
-const socialCarousel = new Carousel([
-	{
-		path: '../assets/facebook.png'
-	},
-	{
-		path: '../assets/instagram.png'
-	},
-	{
-		path: '../assets/skype.png'
-	},
-	{
-		path: '../assets/spotify.png'
-	},
-	{
-		path: '../assets/twitter.png'
-	},
-	{
-		path: '../assets/whatsapp.png'
-	},
-	{
-		path: '../assets/youtube.png'
-	}
-	], 'carousel-social')
+const socialCarousel = new Carousel(images.socialIcons, 'carousel-social')
 carousel.init()
 socialCarousel.init()
 carousel.container.addEventListener('mousedown', carousel.startMove)
+carousel.container.addEventListener('touchstart', carousel.startMove)
 socialCarousel.container.addEventListener('mousedown', socialCarousel.startMove)
+socialCarousel.container.addEventListener('touchstart', socialCarousel.startMove)
