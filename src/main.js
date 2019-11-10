@@ -58,11 +58,11 @@ class Carousel {
 		}
 		if (params.width > this.container.parentElement.clientWidth + this.container.firstElementChild.clientWidth
 			&& params.width > this.container.parentElement.clientWidth + this.container.lastElementChild.clientWidth) {
-			if (params.left - this.container.parentElement.offsetLeft > this.container.firstElementChild.clientWidth / -4) {
+			if (params.left - this.container.parentElement.offsetLeft > (this.container.firstElementChild.clientWidth / -4)) {
 				this.container.insertBefore(this.container.lastElementChild, this.container.firstElementChild)
 				this.container.style.left = `${parseInt(this.container.style.left) - this.container.lastElementChild.clientWidth}px`
 			}
-			if (params.right - this.container.firstElementChild.clientWidth / 4  < this.container.parentElement.clientWidth + this.container.parentElement.offsetLeft) {
+			if (params.right - (this.container.firstElementChild.clientWidth / 4)  < this.container.parentElement.clientWidth + this.container.parentElement.offsetLeft) {
 				this.container.appendChild(this.container.firstElementChild)
 				this.container.style.left = `${parseInt(this.container.style.left) + this.container.firstElementChild.clientWidth}px`
 			}
